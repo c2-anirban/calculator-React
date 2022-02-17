@@ -48,33 +48,62 @@ const Calculator = () => {
     }
   };
 
+  const percentage = () => {
+    if (prevValue) {
+      setNextValue((nextValue / prevValue) * 100);
+    } else {
+      setNextValue(nextValue / 100);
+    }
+  };
+
   const handleOperation = (event) => {
     let value = event.target.value;
 
-    if (isNaN(value) === false) {
-      console.log(`value is ${value}`);
-      handleNum(parseInt(value));
-    } else if (value in CalculatorOperations) {
-      if (opration === null) {
-        setOpration(value);
-        setPrevValue(nextValue);
-        setNextValue("");
-        console.log(`opration is ${value}`);
+    if (value === ".") {
+      if (nextValue.indexOf(".") !== -1) {
+        alert("already exist");
+        return;
+      } else {
+        setNextValue(nextValue + ".");
       }
-      if (opration) {
-        console.log(`opration is ${value}`);
-        setOpration(value);
-      }
-      if (prevValue && opration && nextValue) {
-        let temp = [prevValue, opration, nextValue];
-        setResult(eval(temp.join("")));
+    } else {
+      if (isNaN(value) === false) {
+        console.log(`value is ${value}`);
+        handleNum(parseInt(value));
+      } else if (value in CalculatorOperations) {
+        if (opration === null) {
+          setOpration(value);
+          setPrevValue(nextValue);
+          setNextValue("");
+          console.log(`opration is ${value}`);
+        }
+        if (opration) {
+          console.log(`opration is ${value}`);
+          setOpration(value);
+        }
+        if (prevValue && opration && nextValue) {
+          let temp = [prevValue, opration, nextValue];
+          setResult(eval(temp.join("")));
 
-        performOperation();
+          performOperation();
+        }
+      } else if (value === "AC") {
+        if (nextValue === "") {
+          alert("Enter a valid input");
+          return;
+        } else {
+          clearData();
+        }
+      } else if (value === "del") {
+        if (nextValue === "") {
+          alert("Enter a valid input");
+          return;
+        } else {
+          backButton();
+        }
+      } else if (value === "%") {
+        percentage();
       }
-    } else if (value === "AC") {
-      clearData();
-    } else if (value === "del") {
-      backButton();
     }
   };
   console.log(result);
