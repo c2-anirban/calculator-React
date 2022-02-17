@@ -5,6 +5,7 @@ const Calculator = () => {
   const [prevValue, setPrevValue] = useState(0);
   const [nextValue, setNextValue] = useState("");
   const [opration, setOpration] = useState(null);
+  const [result, setResult] = useState([]);
 
   const CalculatorOperations = {
     "/": (firstValue, secondValue) => firstValue / secondValue,
@@ -38,10 +39,7 @@ const Calculator = () => {
   };
 
   const handleOperation = (event) => {
-    let value = [];
-    value = event.target.value;
-    // let value1 = eval("value");
-    // console.log(`value is ${value1}`);
+    let value = event.target.value;
 
     if (isNaN(value) === false) {
       console.log(`value is ${value}`);
@@ -58,12 +56,16 @@ const Calculator = () => {
         setOpration(value);
       }
       if (prevValue && opration && nextValue) {
+        let temp = [prevValue, opration, nextValue];
+        setResult(eval(temp.join("")));
+
         performOperation();
       }
     } else if (value === "AC") {
       clearData();
     }
   };
+  console.log(result);
 
   return (
     <div>
