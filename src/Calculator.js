@@ -28,14 +28,24 @@ const Calculator = () => {
   };
 
   const handleNum = (number) => {
-    setNextValue(nextValue === "0" ? number : nextValue + number);
+    setNextValue(
+      nextValue === "0" && nextValue === "." ? number : nextValue + number
+    );
   };
 
   const clearData = () => {
     console.log("You press AC");
-    setNextValue("0");
+    setNextValue("");
+    setResult("0");
     setPrevValue(0);
     console.log("Your data ia clear now");
+  };
+  const backButton = () => {
+    if (nextValue !== "") {
+      const deletedNumber = nextValue.slice(0, nextValue.length - 1);
+      setNextValue(deletedNumber);
+      setResult(deletedNumber);
+    }
   };
 
   const handleOperation = (event) => {
@@ -63,6 +73,8 @@ const Calculator = () => {
       }
     } else if (value === "AC") {
       clearData();
+    } else if (value === "del") {
+      backButton();
     }
   };
   console.log(result);
